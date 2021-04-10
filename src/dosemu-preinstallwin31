@@ -1,0 +1,75 @@
+#!/usr/bin/python3
+
+import os
+import shutil
+import subprocess
+import sys
+import time
+import zipfile
+import zlib
+from pathlib import Path
+
+ROOT_DIR = os.path.join(os.environ['HOME'], '.dosemu', 'drive_c')
+
+SCRIPT_ROOT = os.path.dirname(os.path.realpath(__file__))
+
+SOURCES = [
+    {
+        'short_name': 'win31',
+        'urls':
+            [
+                'http://archive.org/download/IBM_PC_Compatibles_TOSEC_2012_04_23/IBM_PC_Compatibles_TOSEC_2012_04_23.zip/IBM%20PC%20Compatibles%20%5BTOSEC%5D%2FIBM%20PC%20Compatibles%20-%20Operating%20Systems%20-%20%5BIMA%5D%20%28TOSEC-v2011-01-06_CM%29%2FMicrosoft%20Windows%20v3.1%20%281992%29%28Microsoft%29%28Disk%201%20of%206%29.zip'
+            ]
+    },
+    {
+        'isDriver': True,
+        'short_name': 'mouse',
+        'urls':
+            [
+                'https://raw.githubusercontent.com/dosemu2/win31-mouse-driver/master/out/oemsetup.inf',
+                'https://raw.githubusercontent.com/dosemu2/win31-mouse-driver/master/out/i33mouse.drv'
+            ]
+    },
+    {
+        'isDriver': True,
+        'short_name': 'video',
+        'urls':
+            [
+                'http://files.mpoli.fi/hardware/DISPLAY/TRIDENT/TVGAW31A.ZIP',
+                'http://files.mpoli.fi/hardware/DISPLAY/TRIDENT/TVGAW31B.ZIP'
+            ]
+    }
+    ]
+
+target = '';
+target_dir = '';
+for source in SOURCES:
+    if not source.get('isDriver'):
+        target = source.get('short_name')
+        target_dir = os.path.join(ROOT_DIR, 'inst', target)
+        download_dir = target_dir
+    else:
+        download_dir = os.path.join(ROOT_DIR, 'inst', target + 'drv', source.get('short_name'))
+
+    download_command = [os.path.join(SCRIPT_ROOT, 'dosemu-downloaddos')]
+    download_command.append('-d')
+    download_command.append(download_dir)
+    download_command.append('-c')
+    for url in source.get('urls'):
+        download_command.append(url)
+    if (subprocess.run(download_command).returncode != 0):
+        print('Download error')
+        sys.exit(1)
+
+    for zipfilearchive in Path(download_dir).glob('*.[zZ][iI][pP]'):
+        subprocess.run(['unzip', '-n', '-L', zipfilearchive, '-d', download_dir])
+
+    if source.get('isDriver'):
+        patch_command = [os.path.join(SCRIPT_ROOT, 'dosemu-patchwin31inst')]
+        patch_command.append('-s')
+        patch_command.append(download_dir)
+        patch_command.append('-d')
+        patch_command.append(target_dir)
+        if (subprocess.run(patch_command).returncode != 0):
+            print('Driver error')
+            sys.exit(1)

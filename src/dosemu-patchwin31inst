@@ -1,0 +1,85 @@
+#!/usr/bin/python3
+
+import argparse
+import fileinput
+import os
+import shutil
+import sys
+from pathlib import Path
+
+def print_cr(string):
+    print(string + '\r')
+
+def is_comment(line):
+    return line.lstrip().startswith(';')
+
+def patch_file(file, append_after, new_string):
+    with open(file) as ofile:
+        if new_string not in ofile.read():
+            ofile.close()
+            for line in fileinput.input(file, inplace=True):
+                if not is_comment(line) and append_after in line:
+                    print_cr(line.rstrip())
+                    print_cr(new_string)
+                else:
+                    print_cr(line.rstrip())
+
+sections_to_copy = ['[display]', '[oemdisks]', '[pointing.device]']
+
+def parse_oemsetup_file(file):
+    oemsetup_data = []
+    copy_disks_section = False
+    with open(file) as ofile:
+        if '[oemdisks]' not in ofile.read():
+            copy_disks_section = True
+        ofile.seek(0)
+        section = False;
+        for line in ofile.readlines():
+            if is_comment(line):
+                continue
+            if line.lstrip().startswith('['):
+                section = line.strip();
+                if section == '[disks]':
+                    if copy_disks_section:
+                        section = '[oemdisks]'
+                    else:
+                        section = False
+            else:
+                if section in sections_to_copy and line.strip() != '':
+                    oemsetup_data.append((section, line))
+                else:
+                    continue
+        return oemsetup_data
+
+parser = argparse.ArgumentParser(description="""Script to patch drivers into Windows 3.1 installation files.
+The source direction should contain a Windows 3.1 driver with accompanying oemsetup.inf.
+The destination directory the complete set of Windows 3.1 installation files.
+There is a special option to add a DOSEMU2 machine type.
+Repeating this script should not have averse effects (idempotent).""")
+parser.add_argument("-s", "--source",      help="Path to driver directory", type=str)
+parser.add_argument("-d", "--destination", help="Path to Windows 3.1 installation files", type=str)
+
+args = parser.parse_args()
+
+if not args.source or not args.destination:
+    print("Missing arguments, see -h")
+    sys.exit(1)
+
+driverinfo_file = os.path.join(args.source, 'oemsetup.inf')
+if not Path(driverinfo_file).exists():
+    print('Missing oemsetup.inf, source needs to point to win31 driver.')
+    sys.exit(1)
+
+setupinfo_file = os.path.join(args.destination, 'setup.inf')
+if not Path(setupinfo_file).exists():
+    print('Missing setup.inf, destination needs to point to win31 install.')
+    sys.exit(1)
+
+driver_data = parse_oemsetup_file(driverinfo_file)
+for entry in driver_data:
+    patch_file(setupinfo_file, entry[0], entry[1])
+
+EXTENSION_LIST = [ '386', 'drv', 'exe' ]
+for extension in EXTENSION_LIST:
+    for filename in Path(args.source).glob('*.' + extension):
+        shutil.copy(filename, args.destination)
