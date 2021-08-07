@@ -35,6 +35,14 @@ SOURCES = [
         'short_name': 'video',
         'urls':
             [
+                'https://archive.org/download/SVGA_EXE/SVGA.EXE'
+            ]
+    },
+    {
+        'isDriver': True,
+        'short_name': 'video2',
+        'urls':
+            [
                 'http://files.mpoli.fi/hardware/DISPLAY/TRIDENT/TVGAW31A.ZIP',
                 'http://files.mpoli.fi/hardware/DISPLAY/TRIDENT/TVGAW31B.ZIP'
             ]
@@ -61,7 +69,7 @@ for source in SOURCES:
         print('Download error')
         sys.exit(1)
 
-    for zipfilearchive in Path(download_dir).glob('*.[zZ][iI][pP]'):
+    for zipfilearchive in Path(download_dir).glob('*.[zZeE][iIxX][pPeE]'):
         subprocess.run(['unzip', '-n', '-L', zipfilearchive, '-d', download_dir])
 
     if source.get('isDriver'):

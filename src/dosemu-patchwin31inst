@@ -15,6 +15,14 @@ def is_comment(line):
 
 def patch_file(file, append_after, new_string):
     with open(file) as ofile:
+        if append_after not in ofile.read():
+            ofile.close()
+            with open(file, 'a') as ofile:
+                ofile.write('\r\n')
+                ofile.write(append_after)
+                ofile.write('\r\n')
+        ofile.close()
+    with open(file) as ofile:
         if new_string not in ofile.read():
             ofile.close()
             for line in fileinput.input(file, inplace=True):
@@ -46,7 +54,11 @@ def parse_oemsetup_file(file):
                         section = False
             else:
                 if section in sections_to_copy and line.strip() != '':
-                    oemsetup_data.append((section, line))
+                    oemsetup_data.append((section, line.strip()))
+                if section == '[display]':
+                    optional_work_section = line.split(',')[-1].strip()
+                    if optional_work_section:
+                        sections_to_copy.append('['+optional_work_section+']')
                 else:
                     continue
         return oemsetup_data
@@ -81,5 +93,10 @@ for entry in driver_data:
 
 EXTENSION_LIST = [ '386', 'drv', 'exe' ]
 for extension in EXTENSION_LIST:
-    for filename in Path(args.source).glob('*.' + extension):
-        shutil.copy(filename, args.destination)
+    for source in Path(args.source).glob('*.' + extension):
+        filename = str(source).split("/")[-1]
+        if Path(os.path.join(args.destination, filename)).exists() or Path(os.path.join(args.destination, filename[:-1] + '_')).exists():
+            print('Skipping already existing file: ' + filename)
+        else:
+            print('Copying file: ' + filename)
+            shutil.copy(source, args.destination)
