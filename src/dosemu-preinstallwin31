@@ -51,7 +51,7 @@ for source in SOURCES:
     else:
         download_dir = os.path.join(ROOT_DIR, 'inst', target + 'drv', source.get('short_name'))
 
-    download_command = [os.path.join(SCRIPT_ROOT, 'dosemu-downloaddos')]
+    download_command = [os.path.join(SCRIPT_ROOT, 'dosemu-downloader')]
     download_command.append('-d')
     download_command.append(download_dir)
     download_command.append('-c')
