@@ -15,6 +15,7 @@ SCRIPT_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 SOURCES = [
     {
+        'type': 'windows',
         'short_name': 'win31',
         'urls':
             [
@@ -22,7 +23,8 @@ SOURCES = [
             ]
     },
     {
-        'isDriver': True,
+        'type': 'integratableDriver',
+        'needsUnzipping': True,
         'short_name': 'mouse',
         'urls':
             [
@@ -31,7 +33,8 @@ SOURCES = [
             ]
     },
     {
-        'isDriver': True,
+        'type': 'integratableDriver',
+        'needsUnzipping': True,
         'short_name': 'video',
         'urls':
             [
@@ -39,7 +42,8 @@ SOURCES = [
             ]
     },
     {
-        'isDriver': True,
+        'type': 'integratableDriver',
+        'needsUnzipping': True,
         'short_name': 'video2',
         'urls':
             [
@@ -52,11 +56,11 @@ SOURCES = [
 target = '';
 target_dir = '';
 for source in SOURCES:
-    if not source.get('isDriver'):
+    if source.get('type') == 'windows':
         target = source.get('short_name')
         target_dir = os.path.join(ROOT_DIR, 'inst', target)
         download_dir = target_dir
-    else:
+    if source.get('type') == 'integratableDriver' or source.get('type') == 'driver':
         download_dir = os.path.join(ROOT_DIR, 'inst', target + 'drv', source.get('short_name'))
 
     download_command = [os.path.join(SCRIPT_ROOT, 'dosemu-downloader')]
@@ -69,10 +73,11 @@ for source in SOURCES:
         print('Download error')
         sys.exit(1)
 
-    for zipfilearchive in Path(download_dir).glob('*.[zZeE][iIxX][pPeE]'):
-        subprocess.run(['unzip', '-n', '-L', zipfilearchive, '-d', download_dir])
+    if source.get('needsUnzipping'):
+        for zipfilearchive in Path(download_dir).glob('*.[zZeE][iIxX][pPeE]'):
+            subprocess.run(['unzip', '-n', '-L', zipfilearchive, '-d', download_dir])
 
-    if source.get('isDriver'):
+    if source.get('type') == 'integratableDriver':
         patch_command = [os.path.join(SCRIPT_ROOT, 'dosemu-patchwin31inst')]
         patch_command.append('-s')
         patch_command.append(download_dir)
