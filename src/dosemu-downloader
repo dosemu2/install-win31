@@ -25,10 +25,11 @@ def download_file(source, destination_directory):
         with urllib.request.urlopen(urllib.parse.quote_plus(source, "\./_-:")) as response, open(destination_file, 'wb') as f:
             if hasattr(response, 'headers'):
                 length = response.headers['Content-length']
-            elif hasattr(response, 'getheader'):
+            if length == None:
                 length = response.getheader('content-length')
-            else:
-                length = None
+            if length == None:
+                length = "1373281"
+            print('Length = ' + length)
             if type(length) is str:
                 with tqdm(total=int(length), unit='B') as pbar:
                     while True:
