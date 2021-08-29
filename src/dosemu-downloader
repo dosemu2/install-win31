@@ -28,7 +28,7 @@ def download_file(source, destination_directory):
             if length == None:
                 length = response.getheader('content-length')
             if length == None:
-                length = "1373281"
+                length = "0"
             print('Length = ' + length)
             if type(length) is str:
                 with tqdm(total=int(length), unit='B') as pbar:
