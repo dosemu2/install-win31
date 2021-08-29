@@ -14,13 +14,11 @@ from pathlib import Path
 from tqdm import tqdm
 
 TMP_DIR = os.path.join('/tmp', os.path.basename(sys.argv[0]) + '-' + os.environ['USER'] + '-' + str(os.getpid()))
+CACHE_DIR = os.path.join(os.environ['HOME'], '.cache', 'dosemu')
 
 def download_file(source, destination_directory):
     destination_file = os.path.join(destination_directory, urllib.parse.unquote(source.split("/")[-1]))
-    if Path(destination_file).is_file():
-        if not destination_file.endswith('.txt'):
-            check_sum(destination_file)
-    else:
+    if not Path(destination_file).is_file():
         print('Downloading ' + source + '...')
         with urllib.request.urlopen(urllib.parse.quote_plus(source, "\./_-:")) as response, open(destination_file, 'wb') as f:
             if hasattr(response, 'headers'):
@@ -71,9 +69,12 @@ def process_disk_image_archive(archive, destination):
     image_path = os.path.join(TMP_DIR, image_filename)
     subprocess.run(['mcopy', '-sn', '-i', image_path, '::*', destination], env={"PATH": os.environ['PATH'], "MTOOLS_LOWER_CASE": '1'})
 
-def download_and_process(imgurls, destination, sha256sums = []):
+def download_and_process(imgurls, name, destination, sha256sums = []):
+    destination_dir = os.path.join(CACHE_DIR, name)
+    if not Path(destination_dir).is_dir():
+        os.mkdir(destination_dir)
+    destination_files = download_files(imgurls, destination_dir)
     os.mkdir(TMP_DIR)
-    destination_files = download_files(imgurls, TMP_DIR)
     for i, imgurl in enumerate(imgurls):
         if len(sha256sums) > 0:
             assert_sha256sum(destination_files[i], sha256sums[i])
@@ -81,7 +82,7 @@ def download_and_process(imgurls, destination, sha256sums = []):
         if re.search(r'.zip$', destination_file) != None and len(zipfile.ZipFile(destination_file).namelist()) == 1:
             process_disk_image_archive(destination_file, destination)
         else:
-            shutil.move(destination_file, destination)
+            shutil.copy(destination_file, destination)
     shutil.rmtree(TMP_DIR)
 
 def verify_tool(executable, package):
@@ -115,6 +116,7 @@ The destination directory will contain all files from all disk images.""")
 parser.add_argument("-c", "--custom",    help="Download specified disk/file set, requires a destination directory", nargs='+', type=str)
 parser.add_argument("-d", "--destination", help="Specify/override the destination directory", type=str)
 parser.add_argument("-s", "--sha256sum", help="Specify one or more sha256sum(s)", nargs='+', type=str)
+parser.add_argument("-n", "--name", help="Specify a name to cache files under", type=str)
 
 args = parser.parse_args()
 if args.custom and args.destination:
@@ -123,9 +125,9 @@ if args.custom and args.destination:
     os.makedirs(destination, exist_ok=True)
     if not os.listdir(destination):
         if len(urls) == 1:
-            download_and_process(derive_url_list(urls[0]), destination, args.sha256sum if args.sha256sum else [])
+            download_and_process(derive_url_list(urls[0]), args.name, destination, args.sha256sum if args.sha256sum else [])
         else:
-            download_and_process(urls, destination, args.sha256sum if args.sha256sum else [])
+            download_and_process(urls, args.name, destination, args.sha256sum if args.sha256sum else [])
     else:
         if args.sha256sum and not list(Path(destination).glob('*.sys')):
             for i, file in enumerate(Path(destination).iterdir()):
