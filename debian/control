@@ -1,0 +1,16 @@
+Source: install-win31
+Section: contrib/otherosfs
+Priority: optional
+Maintainer: Stas Sergeev <stsp@users.sourceforge.net>
+Standards-Version: 4.1.5
+Build-Depends:
+    make,
+    debhelper (>= 9~)
+Homepage: https://github.com/dosemu2/install-win31
+
+Package: install-win31
+Architecture: all
+Depends: python3, python3-tqdm
+Description: Windows 3.1 installer scripts
+ A set of scripts to install Windows 3.1.
+ Also provides a set of bat files for dosemu2 integration.

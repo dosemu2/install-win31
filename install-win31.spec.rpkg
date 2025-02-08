@@ -1,0 +1,42 @@
+#
+# spec file for package install-win31
+#
+
+Name: {{{ git_dir_name }}}
+Version: {{{ git_dir_version }}}
+Release: 1%{?dist}
+Summary: Windows 3.1 installer for DOSEMU2
+BuildArch: noarch
+Group: System/Emulator
+
+License: GPLv3+
+URL: http://www.github.com/dosemu2/install-win31
+VCS: {{{ git_dir_vcs }}}
+Source0: {{{ git_dir_archive }}}
+
+BuildRequires: make
+Requires: python3
+Requires: python3-tqdm
+
+%define debug_package %{nil}
+
+%description
+Windows 3.1 installer for dosemu2.
+
+%prep
+{{{ git_dir_setup_macro }}}
+
+%build
+
+%check
+
+%install
+make DESTDIR=%{buildroot} prefix=%{_prefix} libexecdir=%{_libexecdir} install
+
+%files
+%defattr(-,root,root)
+%{_datadir}/dosemu2-extras
+%{_libexecdir}/dosemu
+
+%changelog
+{{{ git_dir_changelog }}}
