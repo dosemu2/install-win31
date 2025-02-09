@@ -7,9 +7,11 @@ import re
 import shutil
 import subprocess
 import sys
+import time
 import urllib.parse
 import urllib.request
 import zipfile
+import zlib
 from pathlib import Path
 from tqdm import tqdm
 
@@ -20,7 +22,7 @@ def download_file(source, destination_directory):
     destination_file = os.path.join(destination_directory, urllib.parse.unquote(source.split("/")[-1]))
     if not Path(destination_file).is_file():
         print('Downloading ' + source + '...')
-        with urllib.request.urlopen(urllib.parse.quote_plus(source, "\./_-:")) as response, open(destination_file, 'wb') as f:
+        with urllib.request.urlopen(source) as response, open(destination_file, 'wb') as f:
             if hasattr(response, 'headers'):
                 length = response.headers['Content-length']
             if length == None:
@@ -62,12 +64,38 @@ def assert_sha256sum(file, sha256sum):
         print('Please remove the file and rerun the script.')
         sys.exit(1)
 
+def extract_zipfile_entry(archive, zipinfo, output_filename):
+    if Path(output_filename).exists():
+        with open(output_filename, 'rb') as existing_file:
+            existing_file_crc32 = zlib.crc32(existing_file.read())
+            existing_file.close()
+        if existing_file_crc32 == zipinfo.CRC:
+            print('File with equal content ' + output_filename + ' already exists, skipping...')
+            return
+        else:
+            print('\nExisting file with different content found:\n\t' + output_filename + """
+Likely another DOS version is installed already. Remove the
+existing installation with rmfdusr and rerun this script to proceed.""")
+            sys.exit(1)
+    with open(output_filename, 'wb') as output_file:
+        output_file.write(archive.read(zipinfo.filename))
+        output_file.close()
+    os.utime(output_filename, (time.time(), time.mktime(zipinfo.date_time + (0, 0, -1))))
+
 def process_disk_image_archive(archive, destination):
-    image_archive = zipfile.ZipFile(archive)
-    image_filename = image_archive.namelist()[0]
-    image_archive.extractall(TMP_DIR)
-    image_path = os.path.join(TMP_DIR, image_filename)
-    subprocess.run(['mcopy', '-sn', '-i', image_path, '::*', destination], env={"PATH": os.environ['PATH'], "MTOOLS_LOWER_CASE": '1'})
+    zip_archive = zipfile.ZipFile(archive)
+    # zip file with disk images
+    if re.search(r'(?i).im[ag]$', zip_archive.namelist()[0]):
+        zip_archive.extractall(TMP_DIR)
+        for image_filename in zip_archive.namelist():
+            image_path = os.path.join(TMP_DIR, image_filename)
+            subprocess.run(['mcopy', '-sn', '-i', image_path, '::*', destination], env={"PATH": os.environ['PATH'], "MTOOLS_LOWER_CASE": '1'})
+    else:
+        for entry in zip_archive.infolist():
+            print("extracting " + entry.filename)
+            filename = entry.filename.lower()
+            output_filename = os.path.join(destination, filename)
+            extract_zipfile_entry(zip_archive, entry, output_filename)
 
 def download_and_process(imgurls, name, destination, sha256sums = []):
     destination_dir = os.path.join(CACHE_DIR, name)
@@ -79,7 +107,7 @@ def download_and_process(imgurls, name, destination, sha256sums = []):
         if len(sha256sums) > 0:
             assert_sha256sum(destination_files[i], sha256sums[i])
     for destination_file in destination_files:
-        if re.search(r'.zip$', destination_file) != None and len(zipfile.ZipFile(destination_file).namelist()) == 1:
+        if re.search(r'(?i).zip$', destination_file) != None:
             process_disk_image_archive(destination_file, destination)
         else:
             shutil.copy(destination_file, destination)
@@ -100,11 +128,11 @@ def derive_url_list(imgurl):
         if filename.casefold().find("of") != -1:
             imgcnt = int(re.findall(r'(?i)disk\s?\d+\s?of\s(\d+)', filename)[0])
             for i in range(1, imgcnt+1):
-                imgurls.append(imgurl.rsplit("/", 1)[0] + "/" + re.sub(r'(?i)(?P<one>disk\s?)\d+(?P<two>\s?of\s\d+)', r'\g<one>'+str(i) + r'\g<two>', filename))
+                imgurls.append(urllib.parse.quote_plus(imgurl.rsplit("/", 1)[0] + "/" + re.sub(r'(?i)(?P<one>disk\s?)\d+(?P<two>\s?of\s\d+)', r'\g<one>'+str(i) + r'\g<two>', filename), r"\./_-:"))
         else: # if the filenames have just one number, assume the last disk from the set was provided
             imgcnt = int(re.findall(r'(?i)disk\s?(\d+)', filename)[0])
             for i in range(1, imgcnt+1):
-                imgurls.append(imgurl.rsplit("/", 1)[0] + "/" + re.sub(r'(?i)(?P<one>disk\s?)\d+', r'\g<one>'+str(i), filename))
+                imgurls.append(urllib.parse.quote_plus(imgurl.rsplit("/", 1)[0] + "/" + re.sub(r'(?i)(?P<one>disk\s?)\d+', r'\g<one>'+str(i), filename), r"\./_-:"))
     else:
         imgurls.append(imgurl)
     return imgurls;
