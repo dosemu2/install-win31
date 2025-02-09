@@ -46,7 +46,6 @@ SOURCES = [
     },
     {
         'type': 'integratableDriver',
-        'needsUnzipping': True,
         'name': 'w31drv-tvga',
         'short_name': 'video2',
         'urls':
