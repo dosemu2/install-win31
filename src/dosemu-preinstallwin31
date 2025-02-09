@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -18,6 +19,8 @@ SOURCES = [
         'type': 'windows',
         'name': 'win31',
         'short_name': 'win31',
+        'lang': 'en',
+        'codepage': 'cp437',
         'urls':
             [
                 'http://archive.org/download/IBM_PC_Compatibles_TOSEC_2012_04_23/IBM_PC_Compatibles_TOSEC_2012_04_23.zip/IBM%20PC%20Compatibles%20%5BTOSEC%5D%2FIBM%20PC%20Compatibles%20-%20Operating%20Systems%20-%20%5BIMA%5D%20%28TOSEC-v2011-01-06_CM%29%2FMicrosoft%20Windows%20v3.1%20%281992%29%28Microsoft%29%28Disk%201%20of%206%29.zip'
@@ -57,10 +60,20 @@ SOURCES = [
     }
     ]
 
+SYSLANG = re.findall(r'([a-z][a-z]+)_.+', os.environ['LANG'])[0]
+WINLANG = 'en'
+WINCODEPAGE = '437'
+for source in SOURCES:
+    if source.get('lang') == SYSLANG:
+        WINLANG = source.get('lang')
+        WINCODEPAGE = source.get('codepage')
+
 target = '';
 target_dir = '';
 for source in SOURCES:
     if source.get('type') == 'windows':
+        if source.get('lang') != WINLANG:
+            continue
         target = source.get('short_name')
         target_dir = os.path.join(ROOT_DIR, 'inst', target)
         destination_dir = target_dir
@@ -90,6 +103,9 @@ for source in SOURCES:
         patch_command.append(destination_dir)
         patch_command.append('-d')
         patch_command.append(target_dir)
+        patch_command.append('-c')
+        patch_command.append(WINCODEPAGE)
+        result = subprocess.run(patch_command).returncode
         if (subprocess.run(patch_command).returncode != 0):
             print('Driver error')
             sys.exit(1)
