@@ -116,8 +116,8 @@ c:\windows
 ; If you specify both "setupapps" and "autosetupapps", all applications on 
 ; your hard disk will be set up.
 ;
-setupapps                  ; Setup applications already on hard disk
-autosetupapps              ; Set up all applications on hard disk
+;setupapps                  ; Setup applications already on hard disk
+;autosetupapps              ; Set up all applications on hard disk
 ;tutorial                   ; Start Windows Tutorial at the end of Setup
 
 [printers]
@@ -170,5 +170,5 @@ autosetupapps              ; Set up all applications on hard disk
 ; reboot option is not valid. Setup will exit to DOS instead of rebooting
 ; your system.
 ;
-;configfiles = save
-;endopt      = restart
+configfiles = save
+endopt      = exit
