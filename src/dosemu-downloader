@@ -18,8 +18,16 @@ from tqdm import tqdm
 TMP_DIR = os.path.join('/tmp', os.path.basename(sys.argv[0]) + '-' + os.environ['USER'] + '-' + str(os.getpid()))
 CACHE_DIR = os.path.join(os.environ['HOME'], '.cache', 'dosemu')
 
+eight_dot_three_matcher = re.compile(r'^\S{1,8}(\.\S{1,3})?$')
+
+def is_eight_dot_three_filename(filename):
+    return eight_dot_three_matcher.match(filename)
+
 def download_file(source, destination_directory):
-    destination_file = os.path.join(destination_directory, urllib.parse.unquote(source.split("/")[-1]))
+    destination_file = urllib.parse.unquote(source.split("/")[-1])
+    if (is_eight_dot_three_filename(destination_file)):
+        destination_file = destination_file.lower()
+    destination_file = os.path.join(destination_directory, destination_file)
     if not Path(destination_file).is_file():
         print('Downloading ' + source + '...')
         with urllib.request.urlopen(source) as response, open(destination_file, 'wb') as f:
