@@ -303,12 +303,11 @@ SOURCES = [
     },
     {
         'type': 'integratableDriver',
-        'needsUnzipping': True,
-        'name': 'w31drv-svga',
+        'name': 'w31drv-vbesvga',
         'short_name': 'video',
         'urls':
             [
-                'https://archive.org/download/SVGA_EXE/SVGA.EXE'
+                'https://github.com/PluMGMK/vbesvga.drv/releases/download/v0.9.0/vbesvga-release.zip'
             ]
     },
     {
@@ -368,11 +367,6 @@ for source in SOURCES:
         print('Download error')
         sys.exit(1)
 
-    if source.get('needsUnzipping'):
-        for zipfilearchive in Path(destination_dir).glob('*.[zZeE][iIxX][pPeE]'):
-            subprocess.run(['unzip', '-n', '-L', zipfilearchive, '-d', destination_dir])
-            os.remove(zipfilearchive)
-
     if source.get('needsUntarring'):
         for tarball in Path(destination_dir).glob('*.[tA][aA][rR].*'):
             subprocess.run(['tar', '--strip-components=1', '--extract', '--auto-compress', '--file', tarball, '--directory', destination_dir])
@@ -380,10 +374,6 @@ for source in SOURCES:
 #             tar = tarfile.open(tarball)
 #             tar.extractall(destination_dir)
 #             tar.close()
-
-    if source.get('needsUnzipping'):
-        for zipfilearchive in Path(destination_dir).glob('*.[zZeE][iIxX][pPeE]'):
-            subprocess.run(['unzip', '-n', '-L', zipfilearchive, '-d', download_dir])
 
     if source.get('type') == 'integratableDriver':
         patch_command = [os.path.join(SCRIPT_ROOT, 'dosemu-patchwin31inst')]

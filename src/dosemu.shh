@@ -31,7 +31,7 @@ machine = ibm_compatible
 
 ; Display profile string from [display] section of SETUP.INF
 
-display = 8vga600s
+display = vbesvgaautoshi
 
 ; Mouse profile string from [pointing.device] section of SETUP.INF
 
