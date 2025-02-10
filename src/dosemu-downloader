@@ -108,7 +108,7 @@ def process_disk_image_archive(archive, destination):
 def download_and_process(imgurls, name, destination, sha256sums = []):
     destination_dir = os.path.join(CACHE_DIR, name)
     if not Path(destination_dir).is_dir():
-        os.mkdir(destination_dir)
+        os.makedirs(destination_dir)
     destination_files = download_files(imgurls, destination_dir)
     os.mkdir(TMP_DIR)
     for i, imgurl in enumerate(imgurls):

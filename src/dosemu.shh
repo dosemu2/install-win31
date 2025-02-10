@@ -45,19 +45,6 @@ mouse = i33mouse
 
 ;network = lanman/01020000
 
-; Keyboard profile string from [keyboard.types] section of SETUP.INF
-
-keyboard = t4s0enha
-
-; Language profile string from [language] section of SETUP.INF
-
-language = enu
-
-; Keyboard Layout profile string from [keyboard.tables] section of SETUP.INF
-
-kblayout = nodll
-
-
 
 [windir]
 ;

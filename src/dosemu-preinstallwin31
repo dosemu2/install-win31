@@ -19,11 +19,275 @@ SOURCES = [
         'type': 'windows',
         'name': 'win31',
         'short_name': 'win31',
-        'lang': 'en',
+        'lang': [ 'en' ],
         'codepage': 'cp437',
         'urls':
             [
                 'http://archive.org/download/IBM_PC_Compatibles_TOSEC_2012_04_23/IBM_PC_Compatibles_TOSEC_2012_04_23.zip/IBM%20PC%20Compatibles%20%5BTOSEC%5D%2FIBM%20PC%20Compatibles%20-%20Operating%20Systems%20-%20%5BIMA%5D%20%28TOSEC-v2011-01-06_CM%29%2FMicrosoft%20Windows%20v3.1%20%281992%29%28Microsoft%29%28Disk%201%20of%206%29.zip'
+            ]
+    },
+    {
+        'type': 'windows',
+        'name': 'win31',
+        'short_name': 'win31',
+        'lang': [ 'ar' ],
+        'codepage': 'cp720',
+        'urls':
+            [
+                'https://archive.org/download/windows-3.1-disks/Microsoft%20Windows%203.1%20%5BArabic%5D%20%283.5-1.44mb%29.zip'
+            ]
+    },
+    {
+        'type': 'windows',
+        'name': 'win31',
+        'short_name': 'win31',
+        'lang': [ 'ca' ],
+        'codepage': 'cp850',
+        'urls':
+            [
+                'https://archive.org/download/windows-3.1-disks/Microsoft%20Windows%203.1%20%5BCatalan%5D%20%283.5-1.44mb%29.zip'
+            ]
+    },
+    {
+        'type': 'windows',
+        'name': 'win31',
+        'short_name': 'win31',
+        'lang': [ 'zh' ],
+        'codepage': 'gb18030',
+        'urls':
+            [
+                'https://archive.org/download/windows-3.1-disks/Microsoft%20Windows%203.1%20%5BSimpl.%20Chinese%5D%20%28Unpacked%29.zip'
+            ]
+    },
+    {
+        'type': 'windows',
+        'name': 'win31',
+        'short_name': 'win31',
+        'lang': [ 'cs' ],
+        'codepage': 'cp852',
+        'urls':
+            [
+                'https://archive.org/download/windows-3.1-disks/Microsoft%20Windows%203.1%20%5BCzech%5D%20%283.5-1.44mb%29.zip'
+            ]
+    },
+    {
+        'type': 'windows',
+        'name': 'win31',
+        'short_name': 'win31',
+        'lang': [ 'da' ],
+        'codepage': 'cp865',
+        'urls':
+            [
+                'https://archive.org/download/windows-3.1-disks/Microsoft%20Windows%203.1%20%5BDanish%5D%20%283.5-1.44MB%29.zip'
+            ]
+    },
+    {
+        'type': 'windows',
+        'name': 'win31',
+        'short_name': 'win31',
+        'lang': [ 'nl' ],
+        'codepage': 'cp850',
+        'urls':
+            [
+                'https://archive.org/download/windows-3.1-disks/Microsoft%20Windows%203.1%20%5BDutch%5D%20%283.5-1.44mb%29.zip'
+            ]
+    },
+    {
+        'type': 'windows',
+        'name': 'win31',
+        'short_name': 'win31',
+        'lang': [ 'fa' ],
+        'codepage': 'cp1256',
+        'urls':
+            [
+                'https://archive.org/download/windows-3.1-disks/Microsoft%20Windows%203.1%20%5BEnglish%20w.%20Farsi%20Support%5D%20%283.5-1.44mb%29.zip'
+            ]
+    },
+    {
+        'type': 'windows',
+        'name': 'win31',
+        'short_name': 'win31',
+        'lang': [ 'fi' ],
+        'codepage': 'cp850',
+        'urls':
+            [
+                'https://archive.org/download/windows-3.1-disks/Microsoft%20Windows%203.1%20%5BFinnish%5D%20%28Unpacked%29.zip'
+            ]
+    },
+    {
+        'type': 'windows',
+        'name': 'win31',
+        'short_name': 'win31',
+        'lang': [ 'fr' ],
+        'codepage': 'cp850',
+        'urls':
+            [
+                'https://archive.org/download/windows-3.1-disks/Microsoft%20Windows%203.1%20%5BFrench%5D%20%283.5-1.44mb%29.zip'
+            ]
+    },
+    {
+        'type': 'windows',
+        'name': 'win31',
+        'short_name': 'win31',
+        'lang': [ 'de' ],
+        'codepage': 'cp850',
+        'urls':
+            [
+                'https://archive.org/download/windows-3.1-disks/Microsoft%20Windows%203.1%20%5BGerman%5D%20%283.5-1.44mb%29.zip'
+            ]
+    },
+    {
+        'type': 'windows',
+        'name': 'win31',
+        'short_name': 'win31',
+        'lang': [ 'el' ],
+        'codepage': 'cp1253',
+        'urls':
+            [
+                'https://archive.org/download/windows-3.1-disks/Microsoft%20Windows%203.1%20%5BGreek%5D%20%283.5-1.44mb%29.zip'
+            ]
+    },
+    {
+        'type': 'windows',
+        'name': 'win31',
+        'short_name': 'win31',
+        'lang': [ 'he' ],
+        'codepage': 'cp424',
+        'urls':
+            [
+                'https://archive.org/download/windows-3.1-disks/Microsoft%20Windows%203.1%20%5BHebrew%5D%20%28Unpacked%29.zip'
+            ]
+    },
+    {
+        'type': 'windows',
+        'name': 'win31',
+        'short_name': 'win31',
+        'lang': [ 'hu' ],
+        'codepage': 'cp852',
+        'urls':
+            [
+                'https://archive.org/download/windows-3.1-disks/Microsoft%20Windows%203.1%20%5BHungarian%5D%20%28Unpacked%29.zip'
+            ]
+    },
+    {
+        'type': 'windows',
+        'name': 'win31',
+        'short_name': 'win31',
+        'lang': [ 'it' ],
+        'codepage': 'cp850',
+        'urls':
+            [
+                'https://archive.org/download/windows-3.1-disks/Microsoft%20Windows%203.1%20%5BItalian%5D%20%283.5-1.44mb%29.zip'
+            ]
+    },
+    {
+        'type': 'windows',
+        'name': 'win31',
+        'short_name': 'win31',
+        'lang': [ 'ja' ],
+        'codepage': 'shift_jis',
+        'urls':
+            [
+                'https://archive.org/download/windows-3.1-disks/Microsoft%20Windows%203.1%20%5BJapanese%5D%20%283.5-1.44mb%29.zip'
+            ]
+    },
+    {
+        'type': 'windows',
+        'name': 'win31',
+        'short_name': 'win31',
+        'lang': [ 'ko' ],
+        'codepage': 'cp949',
+        'urls':
+            [
+                'https://archive.org/download/windows-3.1-disks/Microsoft%20Windows%203.1%20%5BKorean%5D%20%285.25-1.2mb%29.zip'
+            ]
+    },
+    {
+        'type': 'windows',
+        'name': 'win31',
+        'short_name': 'win31',
+        'lang': [ 'nb' ],
+        'codepage': 'cp865',
+        'urls':
+            [
+                'https://archive.org/download/windows-3.1-disks/Microsoft%20Windows%203.1%20%5BNorwegian%5D%20%283.5-1.44mb%29.zip'
+            ]
+    },
+    {
+        'type': 'windows',
+        'name': 'win31',
+        'short_name': 'win31',
+        'lang': [ 'pl' ],
+        'codepage': 'cp852',
+        'urls':
+            [
+                'https://archive.org/download/windows-3.1-disks/Microsoft%20Windows%203.1%20%5BPolish%5D%20%283.5-1.44mb%29.zip'
+            ]
+    },
+    {
+        'type': 'windows',
+        'name': 'win31',
+        'short_name': 'win31',
+        'lang': [ 'pt' ],
+        'codepage': 'cp850',
+        'urls':
+            [
+                'https://archive.org/download/windows-3.1-disks/Microsoft%20Windows%203.1%20%5BPortuguese-Brazilian%5D%20%283.5-1.44mb%29.zip'
+            ]
+    },
+    {
+        'type': 'windows',
+        'name': 'win31',
+        'short_name': 'win31',
+        'lang': [ 'ru' ],
+        'codepage': 'cp866',
+        'urls':
+            [
+                'https://archive.org/download/windows-3.1-disks/Microsoft%20Windows%203.1%20%5BRussian%5D%20%283.5-1.44mb%29.zip'
+            ]
+    },
+    {
+        'type': 'windows',
+        'name': 'win31',
+        'short_name': 'win31',
+        'lang': [ 'es' ],
+        'codepage': 'cp850',
+        'urls':
+            [
+                'https://archive.org/download/windows-3.1-disks/Microsoft%20Windows%203.1%20%5BSpanish%5D%20%283.5-1.44mb%29.zip'
+            ]
+    },
+    {
+        'type': 'windows',
+        'name': 'win31',
+        'short_name': 'win31',
+        'lang': [ 'sv' ],
+        'codepage': 'cp850',
+        'urls':
+            [
+                'https://archive.org/download/windows-3.1-disks/Microsoft%20Windows%203.1%20%5BSwedish%5D%20%283.5-1.44mb%29.zip'
+            ]
+    },
+    {
+        'type': 'windows',
+        'name': 'win31',
+        'short_name': 'win31',
+        'lang': [ 'tr' ],
+        'codepage': 'cp857',
+        'urls':
+            [
+                'https://archive.org/download/windows-3.1-disks/Microsoft%20Windows%203.1%20%5BTurkish%5D%20%283.5-1.44mb%29.zip'
+            ]
+    },
+    {
+        'type': 'windows',
+        'name': 'win31',
+        'short_name': 'win31',
+        'lang': [ 'sq', 'bs', 'hsb', 'hr', 'ro', 'sk', 'sl' ],
+        'codepage': 'cp852',
+        'urls':
+            [
+                'https://archive.org/download/windows-3.1-disks/Microsoft%20Windows%203.1%20%283.10.104%29%20%28English%20for%20Central-Eastern%20Europe%29%20%281993%29%20%28Unpacked%29.zip'
             ]
     },
     {
@@ -45,6 +309,15 @@ SOURCES = [
             [
                 'https://archive.org/download/SVGA_EXE/SVGA.EXE'
             ]
+    },
+    {
+        'type': 'tool',
+        'name': 'stuffkey',
+        'short_name': 'stuffkey',
+        'urls':
+            [
+                'http://www.retroarchive.org/garbo/pc/keyboard/stfkey40.zip'
+            ]
     }
     ]
 
@@ -52,21 +325,25 @@ SYSLANG = re.findall(r'([a-z][a-z]+)_.+', os.environ['LANG'])[0]
 WINLANG = 'en'
 WINCODEPAGE = '437'
 for source in SOURCES:
-    if source.get('lang') == SYSLANG:
-        WINLANG = source.get('lang')
-        WINCODEPAGE = source.get('codepage')
+   if source.get('type') == 'windows':
+        for winlangentry in source.get('lang'):
+            if winlangentry == SYSLANG:
+                WINLANG = winlangentry
+                WINCODEPAGE = source.get('codepage')
 
 target = '';
 target_dir = '';
 for source in SOURCES:
     if source.get('type') == 'windows':
-        if source.get('lang') != WINLANG:
+        if WINLANG not in source.get('lang'):
             continue
         target = source.get('short_name')
         target_dir = os.path.join(ROOT_DIR, 'inst', target)
         destination_dir = target_dir
     if source.get('type') == 'integratableDriver' or source.get('type') == 'driver':
         destination_dir = os.path.join(ROOT_DIR, 'inst', target + 'drv', source.get('short_name'))
+    if source.get('type') == 'tool':
+        destination_dir = os.path.join(ROOT_DIR, 'tool', source.get('short_name'))
 
     download_command = [os.path.join(SCRIPT_ROOT, 'dosemu-downloader')]
     download_command.append('-n')
