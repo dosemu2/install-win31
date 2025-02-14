@@ -18,20 +18,40 @@ def patch_file(file, encoding, append_after, new_string):
     with codecs.open(file, encoding=encoding) as ofile:
         if append_after not in ofile.read():
             ofile.close()
-            with open(file, 'a') as ofile:
+            with codecs.open(file, 'a', encoding=encoding) as ofile:
                 ofile.write('\r\n')
                 ofile.write(append_after)
                 ofile.write('\r\n')
         ofile.close()
-    with codecs.open(file, encoding=encoding) as ofile:
-        if new_string not in ofile.read():
-            ofile.close()
-            for line in fileinput.input(file, encoding=encoding, inplace=True):
-                if not is_comment(line) and append_after in line:
+    line_injected = False
+    with fileinput.input(file, encoding=encoding, inplace=True) as ofile:
+        in_section = False
+        found_line = False
+        inject_line = False
+        for line in ofile:
+            if not in_section and line.strip() == append_after:
+                in_section = True
+            if in_section:
+                if line == new_string:
+                    # the line is already there
+                    found_line = True
+                if line.strip() != append_after and line.startswith('[') and not found_line:
+                    # this is the next section and we did not find the line
+                    inject_line = True
+            if inject_line:
+                print_cr(new_string)
+                print_cr(line.rstrip())
+                in_section = False
+                inject_line = False
+                line_injected = True
+            else:
+                # stripping the comments avoids that the file becomes too big for setup to load (>64k)
+                if not is_comment(line):
                     print_cr(line.rstrip())
-                    print_cr(new_string)
-                else:
-                    print_cr(line.rstrip())
+    if not line_injected:
+        with codecs.open(file, 'a', encoding=encoding) as ofile:
+            ofile.write(new_string)
+            ofile.write('\r\n')
 
 sections_to_copy = ['[display]', '[oemdisks]', '[pointing.device]']
 
