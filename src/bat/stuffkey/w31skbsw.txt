@@ -1,0 +1,2 @@
+F24,10,85,"<Left Shift>+<Right Shift>"
+{Cr}
