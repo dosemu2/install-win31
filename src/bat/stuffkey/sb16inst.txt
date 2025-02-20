@@ -1,0 +1,14 @@
+F15,16,1,"To install Sound Blaster 16 now, press ENTER."
+{Cr}
+F8,8,8,"Full Installation"
+{Cr}
+F8,18,8,"If the settings are correct, press ENTER."
+{Cr}
+F8,19,8,"If the settings are correct, press ENTER."
+{Cr}
+F5,21,8,"To continue, press ENTER"
+{Cr}
+F8,14,8,"Do you want to associate text files"
+{N}
+F5,20,8,"To exit to DOS, press ENTER."
+{Cr}

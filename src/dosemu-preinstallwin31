@@ -5,6 +5,7 @@ import re
 import shutil
 import subprocess
 import sys
+import tarfile
 import time
 import zipfile
 import zlib
@@ -318,6 +319,16 @@ SOURCES = [
             [
                 'http://www.retroarchive.org/garbo/pc/keyboard/stfkey40.zip'
             ]
+    },
+    {
+        'type': 'driver',
+        'needsUntarring': True,
+        'name': 'w31drv-sb16',
+        'short_name': 'audio',
+        'urls':
+            [
+                'https://github.com/dosemu2/dosemu2/files/6766108/sb16win31.tar.gz'
+            ]
     }
     ]
 
@@ -361,6 +372,17 @@ for source in SOURCES:
         for zipfilearchive in Path(destination_dir).glob('*.[zZeE][iIxX][pPeE]'):
             subprocess.run(['unzip', '-n', '-L', zipfilearchive, '-d', destination_dir])
             os.remove(zipfilearchive)
+
+    if source.get('needsUntarring'):
+        for tarball in Path(destination_dir).glob('*.[tA][aA][rR].*'):
+            subprocess.run(['tar', '--strip-components=1', '--extract', '--auto-compress', '--file', tarball, '--directory', destination_dir])
+#             tar = tarfile.open(tarball)
+#             tar.extractall(destination_dir)
+#             tar.close()
+
+    if source.get('needsUnzipping'):
+        for zipfilearchive in Path(destination_dir).glob('*.[zZeE][iIxX][pPeE]'):
+            subprocess.run(['unzip', '-n', '-L', zipfilearchive, '-d', download_dir])
 
     if source.get('type') == 'integratableDriver':
         patch_command = [os.path.join(SCRIPT_ROOT, 'dosemu-patchwin31inst')]

@@ -9,6 +9,12 @@ if not exist %USERDRV%:\inst\win31\%W31SETUP%.exe goto failfindsetup
 if errorlevel 1 goto failwinsetup
 %USERDRV%:\tool\stuffkey\stuffkey.com /R > NUL
 if exist %USERDRV%:\windows\nul path %PATH%;%USERDRV%:\windows
+if exist %USERDRV%:\windows\system\midimap.cfg del %USERDRV%:\windows\system\midimap.cfg
+%USERDRV%:\tool\stuffkey\stuffkey.com /F:f:\stuffkey\sb16inst.txt
+%USERDRV%:\inst\win31drv\audio\disk1\install.exe
+if errorlevel 32 goto failsb16setup
+if not errorlevel 31 goto failsb16setup
+%USERDRV%:\tool\stuffkey\stuffkey.com /R > NUL
 echo Windows 3.1 was successfully installed.
 echo Type "win" and press enter to start Windows.
 goto end
@@ -25,6 +31,11 @@ goto end
 :failwinsetup
 %USERDRV%:\tool\stuffkey\stuffkey.com /R
 echo The Windows 3.1 Setup program did not complete successfully.
+goto end
+
+:failsb16setup
+%USERDRV%:\tool\stuffkey\stuffkey.com /R
+echo The Sound Blaster 16 Installation program did not complete as expected.
 goto end
 
 :end
