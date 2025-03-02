@@ -1,4 +1,5 @@
 @echo off
+if exist %USERDRV%:\windows\nul goto already
 unix -s dosemu-preinstallwin31
 if errorlevel 1 goto faildownload
 %USERDRV%:\tool\stuffkey\stuffkey.com /F:f:\stuffkey\w31skbsw.txt
@@ -36,6 +37,10 @@ goto end
 :failsb16setup
 %USERDRV%:\tool\stuffkey\stuffkey.com /R
 echo The Sound Blaster 16 Installation program did not complete as expected.
+goto end
+
+:already
+echo %USERDRV%:\windows already exists, not installing
 goto end
 
 :end
