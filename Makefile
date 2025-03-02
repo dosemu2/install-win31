@@ -12,7 +12,7 @@ install:
 	install -m 0644 -D src/*.shh -t $(DESTDIR)$(sysdir)/bat/win31
 	install -m 0755 -D src/dosemu-* -t $(DESTDIR)$(libexecdir)/dosemu
 
-rpm: fdpp.spec.rpkg
+rpm: install-win31.spec.rpkg
 	git clean -fd
 	rpkg local
 
