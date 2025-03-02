@@ -18,6 +18,7 @@ if not errorlevel 31 goto failsb16setup
 %USERDRV%:\tool\stuffkey\stuffkey.com /R > NUL
 rem SB16 install creates config.sys with drivers - move away
 if exist %USERDRV%:\config.sys move %USERDRV%:\config.sys %TEMP%
+deltree /y %USERDRV%:\inst
 echo Windows 3.1 was successfully installed.
 echo Type "win" and press enter to start Windows.
 goto end
