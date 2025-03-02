@@ -376,6 +376,7 @@ for source in SOURCES:
     if source.get('needsUntarring'):
         for tarball in Path(destination_dir).glob('*.[tA][aA][rR].*'):
             subprocess.run(['tar', '--strip-components=1', '--extract', '--auto-compress', '--file', tarball, '--directory', destination_dir])
+            subprocess.run(['chmod', 'u+w', '-R', destination_dir])
 #             tar = tarfile.open(tarball)
 #             tar.extractall(destination_dir)
 #             tar.close()
