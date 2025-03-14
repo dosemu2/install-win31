@@ -1,2 +1,14 @@
 F24,10,85,"<Left Shift>+<Right Shift>"
+~1 F4,8,85,"Основная:         Русская"
+{IfTrue}
+{Up}
+{Up}
+{Up}
+{Up}
+{Cr}
+F6,19,85,"Американская"
+{Cr}
+F24,10,85,"<Left Shift>+<Right Shift>"
+{Cr}
+{Else}
 {Cr}
