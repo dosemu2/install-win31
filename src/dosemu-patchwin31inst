@@ -113,7 +113,7 @@ driver_data = parse_oemsetup_file(driverinfo_file)
 for entry in driver_data:
     patch_file(setupinfo_file, args.codepage, entry[0], entry[1])
 
-EXTENSION_LIST = [ '386', 'drv', 'exe' ]
+EXTENSION_LIST = [ '386', '3gr', 'drv', 'exe' ]
 for extension in EXTENSION_LIST:
     for source in Path(args.source).glob('*.' + extension):
         filename = str(source).split("/")[-1]
