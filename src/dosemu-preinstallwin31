@@ -293,12 +293,11 @@ SOURCES = [
     },
     {
         'type': 'integratableDriver',
-        'name': 'w31drv-i33mouse',
+        'name': 'w31drv-vbmouse',
         'short_name': 'mouse',
         'urls':
             [
-                'https://raw.githubusercontent.com/dosemu2/win31-mouse-driver/master/out/oemsetup.inf',
-                'https://raw.githubusercontent.com/dosemu2/win31-mouse-driver/master/out/i33mouse.drv'
+                'https://depot.javispedro.com/vbox/vbados/vbados.zip'
             ]
     },
     {

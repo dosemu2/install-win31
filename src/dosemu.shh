@@ -35,7 +35,7 @@ display = 8vga600s
 
 ; Mouse profile string from [pointing.device] section of SETUP.INF
 
-mouse = i33mouse
+mouse = vbmouse
 
 ; Network profile string from [network] section of SETUP.INF
 ; followed by version profile string from the appropriate 
