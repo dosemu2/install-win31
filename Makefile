@@ -1,4 +1,9 @@
+# on Termux PREFIX is used
+ifneq ($(PREFIX),)
+prefix := $(PREFIX)
+else
 prefix ?= /usr/local
+endif
 
 sysdir = $(prefix)/share/dosemu2-extras
 libexecdir = $(prefix)/libexec
