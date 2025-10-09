@@ -15,7 +15,7 @@ import zlib
 from pathlib import Path
 from tqdm import tqdm
 
-TMP_DIR = os.path.join('/tmp', os.path.basename(sys.argv[0]) + '-' + os.environ['USER'] + '-' + str(os.getpid()))
+TMP_DIR = os.path.join('/tmp', os.path.basename(sys.argv[0]) + '-' + str(os.getpid()))
 CACHE_DIR = os.path.join(os.environ['HOME'], '.cache', 'dosemu')
 
 eight_dot_three_matcher = re.compile(r'^\S{1,8}(\.\S{1,3})?$')
