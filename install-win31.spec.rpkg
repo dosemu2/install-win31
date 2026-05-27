@@ -10,7 +10,7 @@ BuildArch: noarch
 Group: System/Emulator
 
 License: GPLv3+
-URL: http://www.github.com/dosemu2/install-win31
+URL: https://www.github.com/dosemu2/install-win31
 VCS: {{{ git_dir_vcs }}}
 Source0: {{{ git_dir_archive }}}
 
